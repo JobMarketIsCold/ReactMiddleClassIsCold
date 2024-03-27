@@ -1,26 +1,50 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-const Father = styled.div`
+const Wrapper = styled.div`
+	width: 100vw;
+	height: 100vh;
 	display: flex;
+	justify-content: center;
+	align-items: center;
+`;
+
+const rotationAnime = keyframes`
+	0% {
+		border-radius: 10px;
+	}
+	50% {
+		border-radius: 100px;
+	}
+	100% {
+		transform: rotate(360deg);
+		border-radius: 10px;
+	}
 `;
 
 const Box = styled.div`
-	background-color: ${(props) => props.bgColor};
-	width: 100px;
-	height: 100px;
-`;
-
-const Input = styled.input.attrs({ required: true })`
+	height: 200px;
+	width: 200px;
 	background-color: tomato;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	animation: ${rotationAnime} 2s linear infinite forwards;
+	span {
+		font-size: 60px;
+		&:hover {
+			// span:hover와 동일하다.
+			font-size: 70px;
+		}
+	}
 `;
 
 function App() {
 	return (
-		<Father>
-			<Input />
-			<Input />
-			<Input />
-		</Father>
+		<Wrapper>
+			<Box>
+				<span>🤓👆</span>
+			</Box>
+		</Wrapper>
 	);
 }
 
