@@ -10,15 +10,16 @@ const Box = styled.div`
 	height: 100px;
 `;
 
-const Circle = styled(Box)`
-	border-radius: 50%;
+const Input = styled.input.attrs({ required: true })`
+	background-color: tomato;
 `;
 
 function App() {
 	return (
 		<Father>
-			<Box bgColor="teal"></Box>
-			<Circle bgColor="tomato"></Circle>
+			<Input />
+			<Input />
+			<Input />
 		</Father>
 	);
 }
