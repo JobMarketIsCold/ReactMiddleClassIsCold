@@ -16,10 +16,17 @@ const Boxtwo = styled.div`
 	height: 100px;
 `;
 
+const Text = styled.span`
+	color: red;
+	font-size: 100px;
+`;
+
 function App() {
 	return (
 		<Father>
-			<Boxone />
+			<Boxone>
+				<Text>hi</Text>
+			</Boxone>
 			<Boxtwo />
 		</Father>
 		// <div style={{ display: "flex" }}>
