@@ -1,23 +1,23 @@
 import styled from "styled-components";
 
-const Wrapper = styled.div`
-	width: 100vw;
-	height: 100vh;
+const Container = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background-color: ${(props) => props.theme.backgroundColor};
+	width: 100vw;
+	height: 100vh;
+	background-color: ${(props) => props.theme.bgColor};
 `;
 
-const Title = styled.h1`
+const H1 = styled.h1`
 	color: ${(props) => props.theme.textColor};
 `;
 
 function App() {
 	return (
-		<Wrapper>
-			<Title>HI</Title>
-		</Wrapper>
+		<Container>
+			<H1>안녕하세요! 반갑습니다.</H1>
+		</Container>
 	);
 }
 
