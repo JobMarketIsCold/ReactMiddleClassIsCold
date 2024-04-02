@@ -24,6 +24,7 @@ const Coin = styled.li`
 		padding: 20px;
 		transition: color 0.2s ease-in;
 		display: block;
+		// test
 	}
 	&:hover {
 		a {
