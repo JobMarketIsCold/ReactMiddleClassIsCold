@@ -7,8 +7,7 @@ const GlobalStyle = createGlobalStyle`
    License: none (public domain)
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&family=Rubik+Scribble&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900');
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -62,12 +61,13 @@ table {
 }
 body {
   /* font-size: 100px; */
-	font-family: "Rubik Scribble", "Noto Sans KR", system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+	font-family: "Noto Sans KR", sans-serif;
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
 }
 a {
 	text-decoration: none;
+  color: inherit;
 }
 `;
 
