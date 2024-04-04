@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import {
 	Link,
 	Route,
@@ -43,9 +44,10 @@ const Loader = styled.h1`
 
 const Overview = styled.div`
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 	background-color: rgba(0, 0, 0, 0.5);
 	padding: 10px 20px;
+	margin: 15px 0px;
 	border-radius: 10px;
 `;
 const OverviewItem = styled.div`
@@ -61,6 +63,9 @@ const OverviewItem = styled.div`
 `;
 const Description = styled.p`
 	margin: 20px 0px;
+	background-color: rgba(0, 0, 0, 0.5);
+	padding: 10px 20px;
+	border-radius: 10px;
 `;
 
 const Tabs = styled.div`
@@ -70,7 +75,7 @@ const Tabs = styled.div`
 	gap: 10px;
 `;
 
-const Tab = styled.span<{ isActive: boolean }>`
+const Tab = styled.span<{ $isActive: boolean }>`
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 12px;
@@ -79,7 +84,7 @@ const Tab = styled.span<{ isActive: boolean }>`
 	padding: 7px 0px;
 	border-radius: 10px;
 	color: ${(props) =>
-		props.isActive ? props.theme.accentColor : props.theme.textColor};
+		props.$isActive ? props.theme.accentColor : props.theme.textColor};
 	a {
 		display: block;
 	}
@@ -160,11 +165,23 @@ function Coin() {
 	const { isLoading: tickersLoading, data: tickerData } = useQuery<PriceData>(
 		["tickers", coinId],
 		() => fetchCoinTickers(coinId),
+		{
+			refetchInterval: 10000000,
+		},
 	);
 
-	const loading = infoLoading || tickersLoading;
+	const loading = infoLoading && tickersLoading;
 	return (
 		<Container>
+			<Helmet>
+				<title>
+					{state?.name
+						? state.name
+						: loading
+						? "코인 로딩중..."
+						: infoData?.name}
+				</title>
+			</Helmet>
 			<Header>
 				<Title>
 					{state?.name
@@ -180,35 +197,35 @@ function Coin() {
 				<>
 					<Overview>
 						<OverviewItem>
-							<span>Rank:</span>
-							<span>{infoData?.rank}</span>
-						</OverviewItem>
-						<OverviewItem>
-							<span>Symbol:</span>
+							<span>심볼</span>
 							<span>${infoData?.symbol}</span>
 						</OverviewItem>
 						<OverviewItem>
-							<span>Open Source:</span>
-							<span>{infoData?.open_source ? "Yes" : "No"}</span>
+							<span>순위</span>
+							<span>{infoData?.rank}</span>
+						</OverviewItem>
+						<OverviewItem>
+							<span>가격</span>
+							<span>{tickerData?.quotes.USD.price.toFixed(2)}</span>
 						</OverviewItem>
 					</Overview>
-					<Description>{infoData?.description}</Description>
 					<Overview>
 						<OverviewItem>
-							<span>Total Supply:</span>
+							<span>총량</span>
 							<span>{tickerData?.total_supply}</span>
 						</OverviewItem>
 						<OverviewItem>
-							<span>Max Supply:</span>
+							<span>최대 발행량</span>
 							<span>{tickerData?.max_supply}</span>
 						</OverviewItem>
 					</Overview>
+					<Description>{infoData?.description}</Description>
 
 					<Tabs>
-						<Tab isActive={chartMatch !== null}>
+						<Tab $isActive={chartMatch !== null}>
 							<Link to={`/${coinId}/chart`}>Chart</Link>
 						</Tab>
-						<Tab isActive={priceMatch !== null}>
+						<Tab $isActive={priceMatch !== null}>
 							<Link to={`/${coinId}/price`}>Price</Link>
 						</Tab>
 					</Tabs>
@@ -218,7 +235,7 @@ function Coin() {
 							<Price />
 						</Route>
 						<Route path={`/:coinId/chart`}>
-							<Chart />
+							<Chart coinId={coinId} />
 						</Route>
 					</Switch>
 				</>
