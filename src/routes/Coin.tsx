@@ -15,21 +15,39 @@ import { useQuery } from "react-query";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 
 const Container = styled.div`
+	width: 100%;
+	height: 100%;
 	padding: 0px 20px;
-	max-width: 480px;
+	max-width: 440px;
 	margin: 0 auto;
 `;
 
 const Header = styled.header`
+	width: 100%;
 	height: 15vh;
 	display: flex;
-	justify-content: center;
 	align-items: center;
 	margin: 20px 0px;
 `;
 
+const BackHome = styled.div`
+	width: 30%;
+	height: 50%;
+	display: flex;
+	align-items: center;
+	a {
+		width: 35px;
+		height: 35px;
+		border-radius: 10px;
+	}
+`;
+
 const Title = styled.h1`
-	font-size: 48px;
+	display: flex;
+	align-items: center;
+	width: 70%;
+	height: 50%;
+	font-size: 46px;
 	font-weight: 700;
 	color: ${(props) => props.theme.accentColor};
 `;
@@ -49,11 +67,13 @@ const Overview = styled.div`
 	padding: 10px 20px;
 	margin: 15px 0px;
 	border-radius: 10px;
+	box-shadow: 0px 0px 5px 0px white;
 `;
 const OverviewItem = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+
 	span:first-child {
 		font-size: 10px;
 		font-weight: 400;
@@ -62,10 +82,11 @@ const OverviewItem = styled.div`
 	}
 `;
 const Description = styled.p`
-	margin: 20px 0px;
+	margin: 15px 0px;
 	background-color: rgba(0, 0, 0, 0.5);
-	padding: 10px 20px;
+	padding: 20px 20px;
 	border-radius: 10px;
+	box-shadow: 0px 0px 5px 0px white;
 `;
 
 const Tabs = styled.div`
@@ -78,15 +99,28 @@ const Tabs = styled.div`
 const Tab = styled.span<{ $isActive: boolean }>`
 	text-align: center;
 	text-transform: uppercase;
-	font-size: 12px;
+	font-size: 18px;
 	font-weight: 400;
-	background-color: rgba(0, 0, 0, 0.5);
-	padding: 7px 0px;
+	/* background-color: rgba(0, 0, 0, 0.5); */
+	padding: 14px 0px;
 	border-radius: 10px;
 	color: ${(props) =>
 		props.$isActive ? props.theme.accentColor : props.theme.textColor};
 	a {
+		position: relative;
 		display: block;
+		&::after {
+			content: "";
+			position: absolute;
+			height: 2px;
+			bottom: -10px;
+			left: 87px;
+			width: 20px;
+			border-radius: 1px;
+			background-color: ${(props) =>
+				props.$isActive ? props.theme.accentColor : props.theme.textColor};
+			transition: background-color 0.3s ease 0s;
+		}
 	}
 `;
 
@@ -165,9 +199,6 @@ function Coin() {
 	const { isLoading: tickersLoading, data: tickerData } = useQuery<PriceData>(
 		["tickers", coinId],
 		() => fetchCoinTickers(coinId),
-		{
-			refetchInterval: 10000000,
-		},
 	);
 
 	const loading = infoLoading && tickersLoading;
@@ -183,6 +214,24 @@ function Coin() {
 				</title>
 			</Helmet>
 			<Header>
+				<BackHome>
+					<Link to={`/`}>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							strokeWidth={1.5}
+							stroke="currentColor"
+							className="w-6 h-6"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M9 15 3 9m0 0 6-6M3 9h12a6 6 0 0 1 0 12h-3"
+							/>
+						</svg>
+					</Link>
+				</BackHome>
 				<Title>
 					{state?.name
 						? state.name
