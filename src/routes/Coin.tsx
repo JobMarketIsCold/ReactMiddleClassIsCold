@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import {
 	Link,
 	Route,
@@ -10,6 +11,8 @@ import {
 import { styled } from "styled-components";
 import Price from "./Price";
 import Chart from "./Chart";
+import { useQuery } from "react-query";
+import { fetchCoinInfo, fetchCoinTickers } from "../api";
 
 const Container = styled.div`
 	padding: 0px 20px;
@@ -41,9 +44,10 @@ const Loader = styled.h1`
 
 const Overview = styled.div`
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 	background-color: rgba(0, 0, 0, 0.5);
 	padding: 10px 20px;
+	margin: 15px 0px;
 	border-radius: 10px;
 `;
 const OverviewItem = styled.div`
@@ -59,6 +63,9 @@ const OverviewItem = styled.div`
 `;
 const Description = styled.p`
 	margin: 20px 0px;
+	background-color: rgba(0, 0, 0, 0.5);
+	padding: 10px 20px;
+	border-radius: 10px;
 `;
 
 const Tabs = styled.div`
@@ -68,7 +75,7 @@ const Tabs = styled.div`
 	gap: 10px;
 `;
 
-const Tab = styled.span<{ isActive: boolean }>`
+const Tab = styled.span<{ $isActive: boolean }>`
 	text-align: center;
 	text-transform: uppercase;
 	font-size: 12px;
@@ -77,7 +84,7 @@ const Tab = styled.span<{ isActive: boolean }>`
 	padding: 7px 0px;
 	border-radius: 10px;
 	color: ${(props) =>
-		props.isActive ? props.theme.accentColor : props.theme.textColor};
+		props.$isActive ? props.theme.accentColor : props.theme.textColor};
 	a {
 		display: block;
 	}
@@ -147,32 +154,41 @@ interface PriceData {
 }
 
 function Coin() {
-	const [loading, setLoading] = useState(true);
 	const { coinId } = useParams<RouteParams>();
 	const { state } = useLocation<RouteStates>();
-	const [info, setInfo] = useState<InfoData>();
-	const [priceInfo, setPriceInfo] = useState<PriceData>();
 	const priceMatch = useRouteMatch("/:coinId/price");
 	const chartMatch = useRouteMatch("/:coinId/chart");
-	useEffect(() => {
-		(async () => {
-			const infoData = await (
-				await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-			).json();
-			console.log(infoData);
-			setInfo(infoData);
-			const priceData = await (
-				await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-			).json();
-			setPriceInfo(priceData);
-			setLoading(false);
-		})();
-	}, []);
+	const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(
+		["info", coinId],
+		() => fetchCoinInfo(coinId),
+	);
+	const { isLoading: tickersLoading, data: tickerData } = useQuery<PriceData>(
+		["tickers", coinId],
+		() => fetchCoinTickers(coinId),
+		{
+			refetchInterval: 10000000,
+		},
+	);
+
+	const loading = infoLoading && tickersLoading;
 	return (
 		<Container>
+			<Helmet>
+				<title>
+					{state?.name
+						? state.name
+						: loading
+						? "코인 로딩중..."
+						: infoData?.name}
+				</title>
+			</Helmet>
 			<Header>
 				<Title>
-					{state?.name ? state.name : loading ? "코인 로딩중..." : info?.name}
+					{state?.name
+						? state.name
+						: loading
+						? "코인 로딩중..."
+						: infoData?.name}
 				</Title>
 			</Header>
 			{loading ? (
@@ -181,35 +197,35 @@ function Coin() {
 				<>
 					<Overview>
 						<OverviewItem>
-							<span>Rank:</span>
-							<span>{info?.rank}</span>
+							<span>심볼</span>
+							<span>${infoData?.symbol}</span>
 						</OverviewItem>
 						<OverviewItem>
-							<span>Symbol:</span>
-							<span>${info?.symbol}</span>
+							<span>순위</span>
+							<span>{infoData?.rank}</span>
 						</OverviewItem>
 						<OverviewItem>
-							<span>Open Source:</span>
-							<span>{info?.open_source ? "Yes" : "No"}</span>
+							<span>가격</span>
+							<span>{tickerData?.quotes.USD.price.toFixed(2)}</span>
 						</OverviewItem>
 					</Overview>
-					<Description>{info?.description}</Description>
 					<Overview>
 						<OverviewItem>
-							<span>Total Suply:</span>
-							<span>{priceInfo?.total_supply}</span>
+							<span>총량</span>
+							<span>{tickerData?.total_supply}</span>
 						</OverviewItem>
 						<OverviewItem>
-							<span>Max Supply:</span>
-							<span>{priceInfo?.max_supply}</span>
+							<span>최대 발행량</span>
+							<span>{tickerData?.max_supply}</span>
 						</OverviewItem>
 					</Overview>
+					<Description>{infoData?.description}</Description>
 
 					<Tabs>
-						<Tab isActive={chartMatch !== null}>
+						<Tab $isActive={chartMatch !== null}>
 							<Link to={`/${coinId}/chart`}>Chart</Link>
 						</Tab>
-						<Tab isActive={priceMatch !== null}>
+						<Tab $isActive={priceMatch !== null}>
 							<Link to={`/${coinId}/price`}>Price</Link>
 						</Tab>
 					</Tabs>
@@ -219,7 +235,7 @@ function Coin() {
 							<Price />
 						</Route>
 						<Route path={`/:coinId/chart`}>
-							<Chart />
+							<Chart coinId={coinId} />
 						</Route>
 					</Switch>
 				</>
