@@ -19,12 +19,8 @@ interface IHistorical {
 }
 
 export default function Chart({ coinId }: ChartProps) {
-	const { isLoading, data } = useQuery<IHistorical[]>(
-		["ohlcv", coinId],
-		() => fetchCoinHistory(coinId),
-		{
-			refetchInterval: 1000000,
-		},
+	const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv", coinId], () =>
+		fetchCoinHistory(coinId),
 	);
 	const isError = !Array.isArray(data);
 	return (
