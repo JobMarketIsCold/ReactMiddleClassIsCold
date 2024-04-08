@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useQueries, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import { styled } from "styled-components";
 import { fetchCoins } from "../api";
@@ -77,7 +76,7 @@ function Coins() {
 				<title>Coins</title>
 			</Helmet>
 			<Header>
-				<Title>Coins</Title>
+				<Title>코인</Title>
 			</Header>
 			{isLoading ? (
 				<Loader>😫loading😫</Loader>
