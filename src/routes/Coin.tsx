@@ -63,11 +63,12 @@ const Loader = styled.h1`
 const Overview = styled.div`
 	display: flex;
 	justify-content: space-around;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: ${(props) => props.theme.cardBgColor};
 	padding: 10px 20px;
 	margin: 15px 0px;
 	border-radius: 10px;
 	box-shadow: 0px 0px 5px 0px white;
+	border: 1px solid ${(props) => props.theme.textColor};
 `;
 const OverviewItem = styled.div`
 	display: flex;
@@ -83,10 +84,11 @@ const OverviewItem = styled.div`
 `;
 const Description = styled.p`
 	margin: 15px 0px;
-	background-color: rgba(0, 0, 0, 0.5);
+	background-color: ${(props) => props.theme.cardBgColor};
 	padding: 20px 20px;
 	border-radius: 10px;
 	box-shadow: 0px 0px 5px 0px white;
+	border: 1px solid ${(props) => props.theme.textColor};
 `;
 
 const Tabs = styled.div`
@@ -187,11 +189,7 @@ interface PriceData {
 	};
 }
 
-interface ICoinProps {
-	isDark: boolean;
-}
-
-function Coin({ isDark }: ICoinProps) {
+function Coin() {
 	const { coinId } = useParams<RouteParams>();
 	const { state } = useLocation<RouteStates>();
 	const priceMatch = useRouteMatch("/:coinId/price");
@@ -288,7 +286,7 @@ function Coin({ isDark }: ICoinProps) {
 							<Price />
 						</Route>
 						<Route path={`/:coinId/chart`}>
-							<Chart isDark={isDark} coinId={coinId} />
+							<Chart coinId={coinId} />
 						</Route>
 					</Switch>
 				</>

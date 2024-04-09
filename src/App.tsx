@@ -2,7 +2,8 @@ import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import Router from "./router";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { darkTheme, lightTheme } from "./theme";
-import { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "./Atoms";
 
 const GlobalStyle = createGlobalStyle`
 	/* http://meyerweb.com/eric/tools/css/reset/
@@ -68,6 +69,7 @@ body {
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
   line-height: 1.4;
+  transition: 0.5s ease-in-out all;
 }
 a {
 	text-decoration: none;
@@ -76,13 +78,12 @@ a {
 `;
 
 function App() {
-	const [isDark, setIsDark] = useState(false);
-	const toggleDark = () => setIsDark((current) => !current);
+	const isDark = useRecoilValue(isDarkAtom);
 	return (
 		<>
 			<ThemeProvider theme={isDark ? darkTheme : lightTheme}>
 				<GlobalStyle />
-				<Router isDark={isDark} toggleDark={toggleDark} />
+				<Router />
 				<ReactQueryDevtools initialIsOpen={true} />
 			</ThemeProvider>
 		</>
