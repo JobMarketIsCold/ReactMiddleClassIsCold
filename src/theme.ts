@@ -5,6 +5,8 @@ export const darkTheme: DefaultTheme = {
 	textColor: "white",
 	accentColor: "#9c88ff",
 	cardBgColor: "transparent",
+	toggleBgColor: "white",
+	toggleTextColor: "black",
 };
 
 export const lightTheme: DefaultTheme = {
@@ -12,4 +14,6 @@ export const lightTheme: DefaultTheme = {
 	textColor: "black",
 	accentColor: "#9c88ff",
 	cardBgColor: "white",
+	toggleBgColor: "black",
+	toggleTextColor: "white",
 };
