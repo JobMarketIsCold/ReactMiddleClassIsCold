@@ -21,11 +21,6 @@ function ToDoList() {
 					<ToDo key={toDo.id} {...toDo} />
 				))}
 			</ToDoUL>
-			<ToDoUL>
-				<li>123</li>
-				<li>123</li>
-				<li>123</li>
-			</ToDoUL>
 		</div>
 	);
 }
