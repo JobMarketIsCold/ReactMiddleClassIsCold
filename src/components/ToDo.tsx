@@ -7,13 +7,18 @@ const TextSpan = styled.span`
 	margin-right: 10px;
 `;
 
-function ToDo({ text, category }: IToDo) {
+function ToDo({ text, category, id }: IToDo) {
 	const setToDos = useSetRecoilState(toDoState);
 	const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		const {
 			currentTarget: { name },
 		} = event;
-		console.log(name);
+		setToDos((oldToDos) => {
+			const findIndex = oldToDos.findIndex((toDo) => toDo.id === id);
+			const oldToDo = oldToDos[findIndex];
+			const newToDo = { text, id, category: name };
+			return oldToDos;
+		});
 	};
 	return (
 		<li>

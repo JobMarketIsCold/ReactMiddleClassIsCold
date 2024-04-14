@@ -11,6 +11,7 @@ const ToDoUL = styled.ul`
 
 function ToDoList() {
 	const toDos = useRecoilValue(toDoState);
+	console.log(toDos);
 	return (
 		<div>
 			<h1>투두 리스트!</h1>
