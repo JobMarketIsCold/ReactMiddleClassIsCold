@@ -7,6 +7,17 @@ const TextSpan = styled.span`
 	margin-right: 10px;
 `;
 
+const CategoryBtn = styled.button`
+	background-color: #434341;
+	color: white;
+	border: 2px solid gray;
+	margin-right: 5px;
+`;
+
+const ToDoList = styled.li`
+	/* margin-bottom: 5px; */
+`;
+
 function ToDo({ text, category, id }: IToDo) {
 	const setToDos = useSetRecoilState(toDoState);
 	const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -16,29 +27,29 @@ function ToDo({ text, category, id }: IToDo) {
 		setToDos((oldToDos) => {
 			const findIndex = oldToDos.findIndex((toDo) => toDo.id === id);
 			const oldToDo = oldToDos[findIndex];
-			const newToDo = { text, id, category: name };
-			return oldToDos;
+			const newToDo = { text, id, category: name as IToDo["category"] };
+			return [...oldToDos.slice(0, findIndex), newToDo, ...oldToDos.slice(findIndex + 1)];
 		});
 	};
 	return (
-		<li>
+		<ToDoList>
 			<TextSpan>{text}</TextSpan>
 			{category !== "TO_DO" && (
-				<button name="TO_DO" onClick={onClick}>
+				<CategoryBtn name="TO_DO" onClick={onClick}>
 					To Do
-				</button>
+				</CategoryBtn>
 			)}
 			{category !== "DOING" && (
-				<button name="DOING" onClick={onClick}>
+				<CategoryBtn name="DOING" onClick={onClick}>
 					Doing
-				</button>
+				</CategoryBtn>
 			)}
 			{category !== "DONE" && (
-				<button name="DONE" onClick={onClick}>
+				<CategoryBtn name="DONE" onClick={onClick}>
 					Done
-				</button>
+				</CategoryBtn>
 			)}
-		</li>
+		</ToDoList>
 	);
 }
 export default ToDo;

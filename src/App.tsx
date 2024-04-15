@@ -61,6 +61,8 @@ table {
 }
 body {
   /* font-size: 100px; */
+  width: 100vw;
+  height: 100vh;
 	font-family: "Noto Sans KR", sans-serif;
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
