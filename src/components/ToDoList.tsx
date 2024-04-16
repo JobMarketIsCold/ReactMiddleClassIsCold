@@ -1,8 +1,9 @@
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import CreateToDo from "./CreateToDo";
 import ToDo from "./ToDo";
-import { toDoState } from "../atoms";
+import { categoryState, toDoSelector, toDoState } from "../atoms";
 import { styled } from "styled-components";
+import React from "react";
 
 const ToDoUL = styled.ul`
 	list-style: square;
@@ -40,18 +41,39 @@ const ToDoSection = styled.div`
 	margin: 0 auto;
 `;
 
+const ToDoSelect = styled.select`
+	padding: 10px 0px;
+	background-color: inherit;
+	color: white;
+	border: 1px solid white;
+	border-radius: 4px;
+	outline: none;
+	option {
+		background-color: #2f3640;
+		padding: 3px 0;
+	}
+`;
+
 function ToDoList() {
-	const toDos = useRecoilValue(toDoState);
-	console.log(toDos);
+	const toDos = useRecoilValue(toDoSelector);
+	const [category, setCategory] = useRecoilState(categoryState);
+	const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
+		setCategory(event.currentTarget.value);
+	};
 	return (
 		<ToDoSection>
 			<Title>투두 리스트!</Title>
 			<hr></hr>
 			<Main>
+				<ToDoSelect value={category} onInput={onInput}>
+					<option value="TO_DO">ToDo</option>
+					<option value="DOING">Doing</option>
+					<option value="DONE">Done</option>
+				</ToDoSelect>
 				<CreateToDo />
 				<ULBG>
 					<ToDoUL>
-						{toDos.map((toDo) => (
+						{toDos?.map((toDo) => (
 							<ToDo key={toDo.id} {...toDo} />
 						))}
 					</ToDoUL>
