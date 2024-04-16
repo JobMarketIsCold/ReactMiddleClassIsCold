@@ -46,7 +46,6 @@ function CreateToDo() {
 	const category = useRecoilValue(categoryState);
 	const { register, handleSubmit, setValue } = useForm<IForm>();
 	const onValid = ({ toDo }: IForm) => {
-		console.log("add to do", toDo);
 		setToDos((oldToDos) => [{ text: toDo, id: Date.now(), category: category }, ...oldToDos]);
 		setValue("toDo", "");
 	};
