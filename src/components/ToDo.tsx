@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { IToDo, toDoState } from "../atoms";
+import { Categories, IToDo, toDoState } from "../atoms";
 import React from "react";
 import { useSetRecoilState } from "recoil";
 
@@ -27,25 +27,25 @@ function ToDo({ text, category, id }: IToDo) {
 		setToDos((oldToDos) => {
 			const findIndex = oldToDos.findIndex((toDo) => toDo.id === id);
 			const oldToDo = oldToDos[findIndex];
-			const newToDo = { text, id, category: name as IToDo["category"] };
+			const newToDo = { text, id, category: name as Categories };
 			return [...oldToDos.slice(0, findIndex), newToDo, ...oldToDos.slice(findIndex + 1)];
 		});
 	};
 	return (
 		<ToDoList>
 			<TextSpan>{text}</TextSpan>
-			{category !== "TO_DO" && (
-				<CategoryBtn name="TO_DO" onClick={onClick}>
+			{category !== Categories.TO_DO && (
+				<CategoryBtn name={Categories.TO_DO} onClick={onClick}>
 					To Do
 				</CategoryBtn>
 			)}
-			{category !== "DOING" && (
-				<CategoryBtn name="DOING" onClick={onClick}>
+			{category !== Categories.DOING && (
+				<CategoryBtn name={Categories.DOING} onClick={onClick}>
 					Doing
 				</CategoryBtn>
 			)}
-			{category !== "DONE" && (
-				<CategoryBtn name="DONE" onClick={onClick}>
+			{category !== Categories.DONE && (
+				<CategoryBtn name={Categories.DONE} onClick={onClick}>
 					Done
 				</CategoryBtn>
 			)}
