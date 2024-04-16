@@ -1,9 +1,5 @@
-import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
-import Router from "./router";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { darkTheme, lightTheme } from "./theme";
-import { useRecoilValue } from "recoil";
-import { isDarkAtom } from "./Atoms";
+import styled, { createGlobalStyle } from "styled-components";
+import ToDoList from "./components/ToDoList";
 
 const GlobalStyle = createGlobalStyle`
 	/* http://meyerweb.com/eric/tools/css/reset/
@@ -65,6 +61,8 @@ table {
 }
 body {
   /* font-size: 100px; */
+  width: 100vw;
+  height: 100vh;
 	font-family: "Noto Sans KR", sans-serif;
   background-color: ${(props) => props.theme.bgColor};
   color: ${(props) => props.theme.textColor};
@@ -78,14 +76,10 @@ a {
 `;
 
 function App() {
-	const isDark = useRecoilValue(isDarkAtom);
 	return (
 		<>
-			<ThemeProvider theme={isDark ? darkTheme : lightTheme}>
-				<GlobalStyle />
-				<Router />
-				<ReactQueryDevtools initialIsOpen={true} />
-			</ThemeProvider>
+			<GlobalStyle />
+			<ToDoList />
 		</>
 	);
 }
