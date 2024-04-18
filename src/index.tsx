@@ -68,7 +68,7 @@ body {
   height: 100vh;
 	font-family: "Noto Sans KR", sans-serif;
   background-color: ${(props) => props.theme.bgColor};
-  color: ${(props) => props.theme.textColor};
+  color: blacks;
   line-height: 1.4;
   transition: 0.5s ease-in-out all;
 }
