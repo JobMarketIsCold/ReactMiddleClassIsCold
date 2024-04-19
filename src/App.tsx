@@ -1,9 +1,7 @@
-import { DragDropContext, Draggable, DropResult, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useRecoilState } from "recoil";
 import { styled } from "styled-components";
 import { toDoState } from "./atoms";
-import DraggableCard from "./Components/DraggableCard";
-import { useState } from "react";
 import Board from "./Components/Board";
 
 const Wrapper = styled.div`
