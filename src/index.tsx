@@ -5,13 +5,7 @@ import { ThemeProvider, createGlobalStyle } from "styled-components";
 import { darkTheme } from "./theme";
 
 const GlobalStyle = createGlobalStyle`
-	/* http://meyerweb.com/eric/tools/css/reset/
-   v5.0.1 | 20191019
-   License: none (public domain)
-*/
-
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900');
-
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -59,22 +53,18 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-*{
-	box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 body {
-  /* font-size: 100px; */
-  width: 100vw;
-  height: 100vh;
-	font-family: "Noto Sans KR", sans-serif;
-  background-color: ${(props) => props.theme.bgColor};
-  color: blacks;
-  line-height: 1.4;
-  transition: 0.5s ease-in-out all;
+  font-weight: 300;
+  font-family: 'Source Sans Pro', sans-serif;
+  color:black;
+  line-height: 1.2;
 }
 a {
-	text-decoration: none;
-  color: inherit;
+  text-decoration:none;
+  color:inherit;
 }
 `;
 
